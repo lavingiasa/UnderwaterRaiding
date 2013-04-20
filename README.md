@@ -1,12 +1,12 @@
 # Game - Programming Assignments Private Repository
 ### Student Information
-  + Name: Tommy Trojan
-  + USC Email: ttrojan@usc.edu
-  + USC ID: 0123456789
+  + Name: Samir Lavingia
+  + USC Email: samirlav@usc.edu
+  + USC ID: 7654502404
 
 ### Game Information
-  + Game Name: myAwsomeGame
-  + Game Description: One sentence game description
+  + Game Name: Underwater Raiding
+  + Game Description: You are a fighting submarine that is under the water, trying to exterminate all the crazy mutaed sea creatures that are attacking the people
   + [Game Design Doc](GameDesignDoc.md)
 
 

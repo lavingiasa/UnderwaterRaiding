@@ -1,89 +1,84 @@
 # Game Design Document
-This is a place holder for your game design document. You are advised to write your document in [Markdown](http://daringfireball.net/projects/markdown/) and the following section will show you how to write a document using Markdown markup.
-
-Alternativley, you can write your document in plain text if you wish.
+This is my game design document for my game!
 
 ----
 
-## Markdown
-Markdown is a human-readable structured plain text format that is used to convert text into HTML. GitHub automatically renders Markdown into HTML.
+## Premise:
+After millions of years of evolving on the surface, man decided to venture into the deep blue sea. After roaming around for a bit they realised that while they were becoming more advanced on land, the underwater creatures were doing the same and are now mounting an attack on land. It is now your mission to go destroy the underwater creatures who are trying to kill you. There animals are able to harm you with their shots or by ramming into you. This is your mission. You are our last hope. Good luck.
 
-This is a crash course on how to use Markdown. The following section will show you the plain text used to generate the document shown in the rendering section.
+## Things:
+#### Player:
++ You control a submarine that can shoot bullets made of lasers
++ The player has 3 lives and the player will lose a heart everytime he is shot or rammed into. After you lose a heart you will have invincibility for a couple of seconds
++ The player has bombs that can be used to do massive damage to all the enemies on the screen
 
-### Code
+#### Enemies:
++ ##### Jellyfish:
+	+ Low HP
+	+ Moves very quickly
+	+ Cannot shoot
+	+ Moves in a sinusodal fashion towards the centre
++ ##### Shark:
+	+ Shoots from 3 different places
+	+ High HP
+	+ Very slow
+	+ Only moves left and right
++ ##### Mantaray:
+	+ Shoots balls of lightning 
+	+ Medium/Slowish
+	+ Medium HP
+	+ Forward, left and right
+	
+#### Power Ups:
++ ##### Medal:
+	+ Gives plus a bunch of points
+	+ Is only there for 10 seconds
+	+ Stays in place
++ ##### Shield:
+	+ Gives the player invincibiility for a couple of seconds
+	+ Stays in place
+	+ Is only there for 5 seconds
++ ##### +1 Bomb:
+	+ Gives you one more bomb
+	+ Moves to the bottom of the screen
+	+ Is only there for 3 seconds
++ ##### Weapon Power-Up:
+	+ Moves down, left, and right
+	+ Makes your beams wider
+	+ Lasts for the whole game
 
-```
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
+## Controls:
++ Arrow Keys: Move your direction within the scene
++ Space: Shoot a bullet
++ B: Bombs people
++ P: Pause the game
 
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
+## Score:
++ The score goes up gradually with the clock
++ It is displayed at the top of the screen
++ You can get a boost in score by picking up the medal power up which just gives you a bunch of points
++ The score cannot go down
 
->Blockquotes are done as such.
+## Lives:
++ Lives are shown by hearts at the top of the screen
++ When you are shot or rammed into, you lose a heart
++ The player loses when he loses all three lives
 
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
-
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
-
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
-
-
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
-```
-
-----
-
-### Rendering
-This section shows the rendering of the plain text above.
-
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
-
->Blockquotes are done as such.
-
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
-
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
-
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
-
-
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
-
+## Screenshot and Legend:
++ ##### Menu:
+	+ There is a menu when you start the game which has two buttons: Controls and Start
+	+ The menu goes away once the game is started
++ ##### Buttons:
+	+ Start makes the game start
+	+ Controls shows the controls to the player
++ ##### Actions:
+	+ None
++ ##### Screen Shot
+![alt text](http://i.imgur.com/qG9rCIg.jpg "Game UI")
+	+ The lives are in the top left corner, represented by lives
+	+ The score is in the centre top part of the screen
+	+ Power ups appear out of dead bodies and can be picked up. These include the weapon power up, shield, +1 bomb, and bonus points
+	+ The number of bombs left are shown in the bottom left corner of the screen
+	+ The player is in the centre of the screen at the start, but be can move wherever
+	+ Enemies appear at the top of the screen
+	+ The background will most liely be a repeating coral reef 
