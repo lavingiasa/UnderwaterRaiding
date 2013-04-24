@@ -1,4 +1,5 @@
 #include <QtGui/QApplication>
+#include <QtGui>
 #include "mainwindow.h"
 
 /** @mainpage CSCI 102 PA #5
@@ -13,9 +14,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindow* w = new MainWindow;
 
-    w.show();
+    w->show();
 
     return a.exec();
 }

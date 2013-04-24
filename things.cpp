@@ -1,60 +1,94 @@
-#include <iostream>
-#include <cmath>
-#include <string>
-#include <vector>
+#include "things.h"
+
 using namespace std;
 
-class Shape 
+Thing::Thing( QPixmap* p, int nx, int ny ) 
 {
- public:
-  virtual ~Shape() { }
-  virtual double getArea() = 0;
-  virtual double getPerimeter() = 0;
-  virtual string getType() = 0;
-};
+	pixMap = p;
+	x = nx;
+	y = ny;
+	setPos( x, y );
+}
 
-class RightTriangle : public Shape 
+Player::Player(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny)
 {
- public:
-  RightTriangle(double b, double h) : _b(b), _h(h) { }
-  ~RightTriangle() { }
-  double getArea() { return 0.5*_b*_h; }
-  double getPerimeter() { return sqrt(_b*_b + _h*_h) + _h + _b; }
-  string getType() { return "Right Triangle"; }
-private:
-  double _b, _h;
-};
+	setPixmap(*pm);
+}
 
-class Rectangle : public Shape
+Squid::Squid(QPixmap *pm, int nx, int ny): Thing (pm, nx, ny)
 {
-public:
-    Rectangle(double b, double h) : _b(b), _h(h) { }
-    ~Rectangle() { }
-    double getArea() { return _b*_h; }
-    double getPerimeter() { return _b+_b + _h+_h; }
-    string getType() { return "Rectangle"; }
-private:
-    double _b, _h;
-};
+	setPixmap(*pm);
+}
 
-class Square : public Rectangle
+void Squid::move()
 {
-public:
-    Square(double l) : Rectangle(l,l) { }
-    ~Square() { }
-    //double getArea() { return _b*_h; }
-    //double getPerimeter() { return _b+_b + _h+_h; }
-    string getType() { return "Square"; }
-};
+	moveBy(1,-1);
+	x++;
+	y--;
+	cout << x << y << endl;
+}
+	
+/*Manta::Manta(QPixMap *pm, int nx, int ny): Thing (pm, nx, ny)
+{
+	
+}*/
 
-class Circle : public Shape
+void Manta::move()
 {
-public:
-    Circle(double radius) : _r(radius){ }
-    ~Circle() { }
-    double getArea() { return _r*_r*3.14159; }
-    double getPerimeter() { return 2*_r*3.14159; }
-    string getType() { return "Circle"; }
-private:
-    double _r;
-};
+	moveBy(1,-1);
+}
+
+/*Shark::Shark(QPixMap *pm, int nx, int ny): Thing (pm, nx, ny)
+{
+	
+}*/
+
+void Shark::move()
+{
+	moveBy(10,-10);
+}
+
+void Player::moveUp()
+{
+	cout << "Up" << endl;
+	if(y > 0)
+	{
+		moveBy(0,-10);
+		y = y - 10;
+	}
+}
+void Player::moveDown()
+{
+	cout << "Down" << endl;
+	if(y < WINDOW_MAX_Y*2-55)
+	{
+		moveBy(0,10);
+		y = y + 10;
+	}
+}
+
+void Player::moveLeft()
+{
+	cout << "Left" << endl;
+	if(x > -WINDOW_MAX_X)
+	{
+		moveBy(-10,0);
+		x = x - 10;
+	}
+}
+
+void Player::moveRight()
+{
+	cout << "Right" << endl;
+	if(x < WINDOW_MAX_X*2)
+	{
+		moveBy(10,0);
+		x = x + 10;
+	}
+
+}
+
+void Player::move()
+{
+	
+}

@@ -25,9 +25,13 @@
 #include <QLabel>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QKeyEvent>
+#include <QPixmap>
 
-#define WINDOW_MAX_X 400
-#define WINDOW_MAX_Y 300
+#include "things.h"
+
+#define WINDOW_MAX_X 250
+#define WINDOW_MAX_Y 280
 
 using namespace std;
 
@@ -40,7 +44,9 @@ public:
 	/**Destructor */
     ~MainWindow();
 	/**show the GUI */
-    void show();
+    //void show();
+    void  mousePressEvent(QGraphicsSceneMouseEvent *event);
+
     
 private:
     QGraphicsScene *startingScene;
@@ -49,11 +55,25 @@ private:
     QPushButton *startButton;
     QPushButton *stopButton;
     QTextEdit *name;
+    QLabel *intro;
+    QLabel *namePrompt;
+    
+    QPixmap* sharkImage;
+    QPixmap* playerImage;
+    QPixmap* squidImage;
+    QPixmap* mantaImage;
+    
+    Player* player;
+    
+    vector<Thing*> myThings;
+    
+
 
     int numHandles;
     
     int value_;    
     QTimer *timer;
+    QVBoxLayout *mainLayout;
 
 
 
@@ -64,7 +84,9 @@ public slots:
     void exitGame();
 	/** The slot to handle the timer*/
     void handleTimer();
-   
+    
+protected:
+	void keyPressEvent(QKeyEvent *event);
 
 };
 #endif // MAINWINDOW_H
