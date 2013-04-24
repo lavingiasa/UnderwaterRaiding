@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+*.pro
+Makefile
+game_samirlav	
+moc_mainwindow.cpp
+*.cpp~
+*.h~
+
