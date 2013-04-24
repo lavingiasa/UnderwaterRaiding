@@ -40,8 +40,11 @@ class Player: public Thing
 class Squid: public Thing 
 {
 	public:
-		Squid (QPixmap *pm, int nx, int ny);
+		Squid (QPixmap *pm, int nx, int ny, int left);
 		void move(); 
+	private:
+		int left_;
+	
 };
 
 class Manta: public Thing 

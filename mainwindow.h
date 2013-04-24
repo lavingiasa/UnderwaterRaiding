@@ -27,8 +27,10 @@
 #include <QListWidgetItem>
 #include <QKeyEvent>
 #include <QPixmap>
+#include <ctime>
 
 #include "things.h"
+
 
 #define WINDOW_MAX_X 250
 #define WINDOW_MAX_Y 280
@@ -70,6 +72,7 @@ private:
 
 
     int numHandles;
+    int left;
     
     int value_;    
     QTimer *timer;

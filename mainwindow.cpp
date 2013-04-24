@@ -5,15 +5,25 @@ using namespace std;
 void MainWindow::handleTimer() 
 {
 	numHandles ++;
-	if (numHandles == 10000)
+	Squid * currSquid;
+	if (numHandles == 50000)
 	{
-		srand(0);
-		Squid * currSquid = new Squid(squidImage, rand()%200, 0);
+		if(left == 1)
+		{
+			currSquid = new Squid(squidImage, 200, -300, left);
+			left = 0;
+
+		}else{
+			currSquid = new Squid(squidImage, -250, -300, left);
+			left = 1;
+
+		}
 		myThings.push_back(currSquid);
 		startingScene->addItem(currSquid);
 		numHandles = 0;
 	}
-	if (numHandles == 1000)
+	
+	if (numHandles%2500== 1)
 	{
 		for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
@@ -51,13 +61,15 @@ void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * It also positions everything in the correct place and connects and stuff
  * 
  */
-MainWindow::MainWindow()  {
+MainWindow::MainWindow()  {	
 	namePrompt = new QLabel("Name:");
 	mainLayout = new QVBoxLayout;
-    
-    std::srand(0);
+    left = 0;
+    std::srand(time(0));
     numHandles = 0;
     startingScene = new QGraphicsScene();
+    startingScene->setSceneRect(-WINDOW_MAX_X, -WINDOW_MAX_Y , 2*WINDOW_MAX_X -10 , 2*WINDOW_MAX_Y -10);
+    startingScene->setBackgroundBrush(QBrush(Qt::blue));
     view = new QGraphicsView( startingScene );
     mainLayout->addWidget(view);
 

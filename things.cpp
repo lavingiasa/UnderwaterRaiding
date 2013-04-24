@@ -15,17 +15,22 @@ Player::Player(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny)
 	setPixmap(*pm);
 }
 
-Squid::Squid(QPixmap *pm, int nx, int ny): Thing (pm, nx, ny)
+Squid::Squid(QPixmap *pm, int nx, int ny, int left): Thing (pm, nx, ny)
 {
 	setPixmap(*pm);
+	left_ = left;
 }
 
 void Squid::move()
 {
-	moveBy(1,-1);
+	if(left_ == 1)
+	{
+		moveBy(-1,1);
+	}else{
+		moveBy(1,1);
+	}
 	x++;
 	y--;
-	cout << x << y << endl;
 }
 	
 /*Manta::Manta(QPixMap *pm, int nx, int ny): Thing (pm, nx, ny)
