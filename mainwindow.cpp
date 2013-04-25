@@ -103,6 +103,23 @@ void MainWindow::handleTimer()
 						myThings.erase(Itone);
 						
 					}
+				if (myThings[i] -> powerUpNumber() == 3)
+					{
+						justHit = 1;
+						delete myThings[i];
+						vector <Thing*>::iterator Itone;
+						Itone = myThings.begin() + i;
+						myThings.erase(Itone);
+						
+					}
+				if (myThings[i] -> powerUpNumber() == 4)
+					{
+						delete myThings[i];
+						vector <Thing*>::iterator Itone;
+						Itone = myThings.begin() + i;
+						myThings.erase(Itone);
+						
+					}
 			}
 			
 			if(myThings[i]->isBad() && player->collidesWithItem(myThings[i]) && justHit == 0)
@@ -169,9 +186,17 @@ void MainWindow::handleTimer()
 					
 					if(rand()%10 == 3)
 					{
-						PlusBomb * currBomb = new PlusBomb(bombImage, myThings[i] -> getX(), myThings[i] -> getY());
-						myThings.push_back(currBomb);
-						startingScene -> addItem(currBomb);
+						Shield * currShield = new Shield(shieldImage, myThings[i] -> getX(), myThings[i] -> getY());
+						myThings.push_back(currShield);
+						startingScene -> addItem(currShield);
+					}
+					
+					if(rand()%10 == 4)
+					{
+						BetterGun * currGun = new BetterGun(gunImage, myThings[i] -> getX(), myThings[i] -> getY());
+						myThings.push_back(currGun);
+						startingScene -> addItem(currGun);
+						intGunToUse = 1;
 					}
 				}
 				
@@ -206,7 +231,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			
 			if(justShot == 0)
 			{
-				Lazer * lazer = new Lazer(bulletImage, player->getX(), player->getY());
+				cout << intGunToUse << endl;
+				Lazer * lazer;
+				
+				if (intGunToUse == 1)
+				{
+					lazer = new Lazer(bulletImage, player->getX(), player->getY());
+				}else{
+					lazer = new Lazer(thickBulletImage, player->getX(), player->getY());
+				}
 				myThings.push_back(lazer);
 				startingScene -> addItem(lazer);
 				justShot = 6;
@@ -259,6 +292,7 @@ void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event)
  * 
  */
 MainWindow::MainWindow()  {	
+	this -> setWindowTitle("Pew Pew");
 	namePrompt = new QLabel("Name:");
 	mainLayout = new QVBoxLayout;
 	lives = new QHBoxLayout;
@@ -270,6 +304,7 @@ MainWindow::MainWindow()  {
     numBombs = 3;
     numHandles = 0;
     scoreNumber = 0;
+    intGunToUse = 0;
     startingScene = new QGraphicsScene();
     startingScene->setSceneRect(-WINDOW_MAX_X, -WINDOW_MAX_Y , 2*WINDOW_MAX_X -10 , 2*WINDOW_MAX_Y -10);
     startingScene->setBackgroundBrush(QBrush(Qt::blue));
@@ -305,6 +340,9 @@ MainWindow::MainWindow()  {
     heartImage = new QPixmap("Images/heart.png");
     bombImage = new QPixmap("Images/bomb.png");
     pointsImage = new QPixmap("Images/medal.gif");
+    shieldImage = new QPixmap("Images/shield.png");
+    gunImage = new QPixmap("Images/gun.png");
+    thickBulletImage = new QPixmap("Images/laser.png");
     
     heartOne -> setPixmap(*heartImage);
     heartTwo -> setPixmap(*heartImage);

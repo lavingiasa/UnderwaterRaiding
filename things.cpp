@@ -214,6 +214,35 @@ PlusPoints::PlusPoints(QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
 	hp_ = 10000;
 }
 
+Shield::Shield(QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 0;
+	powerUpNumberz = 3;
+	hp_ = 10000;
+}
+
+void Shield::move()
+{
+	moveBy(0,5);
+	y = y + 5;
+}
+
+BetterGun::BetterGun(QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 0;
+	powerUpNumberz = 4;
+	hp_ = 10000;
+}
+
+void BetterGun::move()
+{
+	moveBy(0,5);
+	y = y + 5;
+}
+
+
 void PlusPoints::move()
 {
 	moveBy(0,5);

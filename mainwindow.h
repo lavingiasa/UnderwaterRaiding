@@ -86,6 +86,11 @@ private:
     QPixmap* heartImage;
     QPixmap* bombImage;
     QPixmap* pointsImage;
+    QPixmap* shieldImage;
+    QPixmap* gunImage;
+    QPixmap* thickBulletImage;
+    
+    int intGunToUse;
     
     Player* player;
     

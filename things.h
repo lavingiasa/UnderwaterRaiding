@@ -60,10 +60,30 @@ class PlusBomb: public Thing
 	 
 };
 
+class BetterGun: public Thing 
+{
+	public:
+		BetterGun (QPixmap *pm, int nx, int ny);
+		void move();
+		
+	private:
+	 
+};
+
 class PlusPoints: public Thing 
 {
 	public:
 		PlusPoints (QPixmap *pm, int nx, int ny);
+		void move();
+		
+	private:
+	 
+};
+
+class Shield: public Thing 
+{
+	public:
+		Shield (QPixmap *pm, int nx, int ny);
 		void move();
 		
 	private:
