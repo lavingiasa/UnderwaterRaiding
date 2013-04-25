@@ -68,6 +68,11 @@ private:
     QLabel *heartOne;
     QLabel *heartTwo;
     QLabel *heartThree;
+    
+    QLabel *bombOne;
+    QLabel *bombTwo;
+    QLabel *bombThree;
+    
     QLabel *score;
     
     int scoreNumber;
@@ -79,6 +84,8 @@ private:
     QPixmap* mantaImage;
     QPixmap* bulletImage;
     QPixmap* heartImage;
+    QPixmap* bombImage;
+    QPixmap* pointsImage;
     
     Player* player;
     

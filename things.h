@@ -22,6 +22,7 @@ class Thing: public QGraphicsPixmapItem
 		int getHP();
 		int getY();
 		int getX();	
+		int powerUpNumber();
 
 	protected:
 		int x;
@@ -31,6 +32,7 @@ class Thing: public QGraphicsPixmapItem
 		int hp_;
 		int bad;
 		QPixmap *pixMap;
+		int powerUpNumberz;
 };
 
 class Player: public Thing 
@@ -44,6 +46,26 @@ class Player: public Thing
 		void move();
 		int getX();
 		int getY();
+	private:
+	 
+};
+
+class PlusBomb: public Thing 
+{
+	public:
+		PlusBomb (QPixmap *pm, int nx, int ny);
+		void move();
+		
+	private:
+	 
+};
+
+class PlusPoints: public Thing 
+{
+	public:
+		PlusPoints (QPixmap *pm, int nx, int ny);
+		void move();
+		
 	private:
 	 
 };

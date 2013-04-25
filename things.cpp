@@ -48,6 +48,8 @@ Squid::Squid(QPixmap *pm, int nx, int ny, int left): Thing (pm, nx, ny)
 	left_ = left;
 	hp_ = 1;
 	bad = 1;
+	powerUpNumberz = 0;
+
 }
 
 void Squid::hit()
@@ -69,9 +71,17 @@ void Squid::move()
 	y++;
 }
 
+void PlusBomb::move()
+{
+	moveBy(0,1);
+	y = y + 1;
+	
+}
+
 void Manta::move()
 {
 	moveBy(0,1);
+	y = y + 1;
 }
 
 void Shark::move()
@@ -160,6 +170,7 @@ Lazer::Lazer (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
 	setPixmap(*pm);
 	bad = 0;
 	hp_ = 1;
+	powerUpNumberz = 0;
 }
 
 Manta::Manta (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
@@ -167,6 +178,8 @@ Manta::Manta (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
 	setPixmap(*pm);
 	bad = 1;
 	hp_ = 10;
+	powerUpNumberz = 0;
+
 }
 
 Shark::Shark (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
@@ -175,6 +188,36 @@ Shark::Shark (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
 	bad = 1;
 	hp_ = 5;
 	goingLeft = 0;
+	powerUpNumberz = 0;
+
+}
+
+int Thing::powerUpNumber()
+{
+	return powerUpNumberz;
+}
+
+PlusBomb::PlusBomb (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 0;
+	powerUpNumberz = 1;
+	hp_ = 10000;
+	
+}
+
+PlusPoints::PlusPoints(QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 0;
+	powerUpNumberz = 2;
+	hp_ = 10000;
+}
+
+void PlusPoints::move()
+{
+	moveBy(0,5);
+	y = y + 5;
 }
 
 void Lazer::move()

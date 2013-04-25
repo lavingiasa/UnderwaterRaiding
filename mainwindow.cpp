@@ -38,6 +38,7 @@ void MainWindow::handleTimer()
 		currManta = new Manta(mantaImage,-100, -300);
 		myThings.push_back(currManta);
 		startingScene -> addItem(currManta);
+		
 	}
 		
 	if (numHandles % (spawnNumber/20) == 1)
@@ -67,6 +68,43 @@ void MainWindow::handleTimer()
 	
 	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
+			if(!(myThings[i]->isBad()) && player->collidesWithItem(myThings[i]))
+			{
+				if (myThings[i] -> powerUpNumber() == 1)
+				{
+					if(numBombs < 3)
+					{
+						numBombs ++;
+						
+						delete myThings[i];
+						vector <Thing*>::iterator Itone;
+						Itone = myThings.begin() + i;
+						myThings.erase(Itone);
+							
+						
+						if (numBombs == 3)
+						{
+							bombThree -> show();
+						}else if(numBombs == 2)
+						{
+							bombTwo -> show();
+						}else if (numBombs == 1)
+						{
+							bombOne -> show();
+						}
+					}
+				}
+				if (myThings[i] -> powerUpNumber() == 2)
+					{
+						scoreNumber += 1000;
+						delete myThings[i];
+						vector <Thing*>::iterator Itone;
+						Itone = myThings.begin() + i;
+						myThings.erase(Itone);
+						
+					}
+			}
+			
 			if(myThings[i]->isBad() && player->collidesWithItem(myThings[i]) && justHit == 0)
 			{
 				player->isHit();
@@ -104,7 +142,7 @@ void MainWindow::handleTimer()
 					continue;
 				}
 				
-				if (myThings[j] -> isBad() && myThings[i]->isBad() == false && myThings[i]->collidesWithItem(myThings[j]))
+				if (myThings[j] -> isBad() && myThings[i]->isBad() == false && myThings[i]->collidesWithItem(myThings[j]) && myThings[i] -> powerUpNumber() == 0 && myThings[j] -> powerUpNumber() == 0)
 				{
 					myThings[i] -> isHit();
 					myThings[j] -> isHit();
@@ -113,10 +151,35 @@ void MainWindow::handleTimer()
 			
 			if(myThings[i] -> getHP() == 0 || myThings[i] -> getY() > WINDOW_MAX_Y || myThings[i] -> getY() < -WINDOW_MAX_Y - 30 || myThings[i] -> getX() > WINDOW_MAX_X || myThings[i] -> getX() < -WINDOW_MAX_X)
 			{
+				if(myThings[i] -> isBad())
+				{
+					if(rand()%10 == 1)
+					{
+						PlusBomb * currBomb = new PlusBomb(bombImage, myThings[i] -> getX(), myThings[i] -> getY());
+						myThings.push_back(currBomb);
+						startingScene -> addItem(currBomb);
+					}
+					
+					if(rand()%10 == 2)
+					{
+						PlusPoints * currPoints = new PlusPoints(pointsImage, myThings[i] -> getX(), myThings[i] -> getY());
+						myThings.push_back(currPoints);
+						startingScene -> addItem(currPoints);
+					}
+					
+					if(rand()%10 == 3)
+					{
+						PlusBomb * currBomb = new PlusBomb(bombImage, myThings[i] -> getX(), myThings[i] -> getY());
+						myThings.push_back(currBomb);
+						startingScene -> addItem(currBomb);
+					}
+				}
+				
 				delete myThings[i];
 				vector <Thing*>::iterator Itone;
 				Itone = myThings.begin() + i;
 				myThings.erase(Itone);
+				
 			}
 			
 			
@@ -166,7 +229,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 				}
 				myThings.clear();
 				numBombs --;
+				
+				if (numBombs == 2)
+				{
+					bombThree -> hide();
+				}else if(numBombs == 1)
+				{
+					bombTwo -> hide();
+				}else if (numBombs == 0)
+				{
+					bombOne -> hide();
+				}
 			}
+			
 			break;
 				
 		
@@ -206,6 +281,10 @@ MainWindow::MainWindow()  {
     heartTwo = new QLabel();
     heartThree = new QLabel();
     
+	bombOne = new QLabel();
+    bombTwo = new QLabel();
+    bombThree = new QLabel();
+    
 	
 
 
@@ -224,10 +303,17 @@ MainWindow::MainWindow()  {
     mantaImage = new QPixmap("Images/manta.png");
     bulletImage = new QPixmap("Images/bullet.gif");
     heartImage = new QPixmap("Images/heart.png");
+    bombImage = new QPixmap("Images/bomb.png");
+    pointsImage = new QPixmap("Images/medal.gif");
     
     heartOne -> setPixmap(*heartImage);
     heartTwo -> setPixmap(*heartImage);
     heartThree -> setPixmap(*heartImage);
+    
+    bombOne -> setPixmap(*bombImage);
+    bombTwo -> setPixmap(*bombImage);
+    bombThree -> setPixmap(*bombImage);
+
 	
 	player = new Player(playerImage, 0, 0);
 	score = new QLabel;
@@ -238,6 +324,10 @@ MainWindow::MainWindow()  {
     lives->addWidget( heartThree);
     lives->addWidget( score);
 
+	lives->addWidget( bombOne);
+    lives->addWidget( bombTwo);
+    lives->addWidget( bombThree);
+    
     mainLayout->addLayout(lives);
 
     mainLayout->addWidget(view);
