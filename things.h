@@ -17,11 +17,19 @@ class Thing: public QGraphicsPixmapItem
 	public:
 		Thing(QPixmap *pm, int nx, int ny);
 		void virtual move() = 0;
+		bool isBad();
+		void isHit();
+		int getHP();
+		int getY();
+		int getX();	
+
 	protected:
 		int x;
 		int y;
 		int vX;
 		int vY;
+		int hp_;
+		int bad;
 		QPixmap *pixMap;
 };
 
@@ -34,6 +42,9 @@ class Player: public Thing
 		void moveDown(); 
 		void moveRight();
 		void move();
+		int getX();
+		int getY();
+	private:
 	 
 };
 
@@ -42,9 +53,17 @@ class Squid: public Thing
 	public:
 		Squid (QPixmap *pm, int nx, int ny, int left);
 		void move(); 
+		void hit();
 	private:
 		int left_;
 	
+};
+
+class Lazer: public Thing
+{
+	public:
+		Lazer (QPixmap *pm, int nx, int ny);
+		void move();
 };
 
 class Manta: public Thing 
@@ -52,13 +71,17 @@ class Manta: public Thing
 	public:
 		Manta (QPixmap *pm, int nx, int ny);
 		void move(); 
+	private:
+		int goingLeft;
 };
 
 class Shark: public Thing 
 {
 	public:
-		//Shark (QPixmap *pm, int nx, int ny);
+		Shark (QPixmap *pm, int nx, int ny);
 		void move(); 
+	private:
+		int goingLeft;
 };
 
 

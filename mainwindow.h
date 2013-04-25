@@ -28,6 +28,11 @@
 #include <QKeyEvent>
 #include <QPixmap>
 #include <ctime>
+#include <iostream>
+#include <QHBoxLayout>
+#include <cstdlib>
+#include <sstream>
+
 
 #include "things.h"
 
@@ -60,10 +65,20 @@ private:
     QLabel *intro;
     QLabel *namePrompt;
     
+    QLabel *heartOne;
+    QLabel *heartTwo;
+    QLabel *heartThree;
+    QLabel *score;
+    
+    int scoreNumber;
+    int numBombs;
+    
     QPixmap* sharkImage;
     QPixmap* playerImage;
     QPixmap* squidImage;
     QPixmap* mantaImage;
+    QPixmap* bulletImage;
+    QPixmap* heartImage;
     
     Player* player;
     
@@ -73,11 +88,15 @@ private:
 
     int numHandles;
     int left;
+    int justHit;
     
     int value_;    
     QTimer *timer;
     QVBoxLayout *mainLayout;
+    QHBoxLayout *lives;
 
+	int spawnNumber;
+	int justShot;
 
 
 public slots:

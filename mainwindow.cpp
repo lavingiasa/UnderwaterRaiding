@@ -5,9 +5,46 @@ using namespace std;
 void MainWindow::handleTimer() 
 {
 	numHandles ++;
-	Squid * currSquid;
-	if (numHandles == 50000)
+	scoreNumber ++;
+	
+	stringstream ss; 
+	ss << scoreNumber;
+	string str = ss.str();
+
+	score -> setText(str.c_str());
+	if(justShot > 0)
 	{
+		justShot --;
+	}
+
+	if(numHandles == spawnNumber)
+	{
+		Shark * currShark = new Shark(sharkImage, 0,-300);
+		numHandles = 0;
+		myThings.push_back(currShark);
+		startingScene->addItem(currShark);
+		if(spawnNumber >= 50)
+		{
+			spawnNumber = spawnNumber - 50;
+		}
+
+	}
+	
+	if(numHandles % (spawnNumber/2) == 1)
+	{
+		Manta * currManta = new Manta(mantaImage,0,-300);
+		myThings.push_back(currManta);
+		startingScene -> addItem(currManta);
+		currManta = new Manta(mantaImage,-100, -300);
+		myThings.push_back(currManta);
+		startingScene -> addItem(currManta);
+	}
+		
+	if (numHandles % (spawnNumber/20) == 1)
+	{
+		Squid * currSquid;
+
+		justHit = 0;
 		if(left == 1)
 		{
 			currSquid = new Squid(squidImage, 200, -300, left);
@@ -20,16 +57,70 @@ void MainWindow::handleTimer()
 		}
 		myThings.push_back(currSquid);
 		startingScene->addItem(currSquid);
-		numHandles = 0;
+
 	}
 	
-	if (numHandles%2500== 1)
-	{
-		for(unsigned int i = 0; i < myThings.size(); i ++)
+	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
 			myThings[i]->move();
 		}
-	}
+	
+	for(unsigned int i = 0; i < myThings.size(); i ++)
+		{
+			if(myThings[i]->isBad() && player->collidesWithItem(myThings[i]) && justHit == 0)
+			{
+				player->isHit();
+				if (player->getHP() == 2)
+				{
+					heartThree -> hide();
+				}else if(player->getHP() == 1)
+				{
+					heartTwo -> hide();
+				}else if (player->getHP() == 0)
+				{
+					heartOne -> hide();
+				}
+				
+				if(player->getHP() == -1)
+				{
+					timer -> stop();
+					for (unsigned int h = 0; h < myThings.size(); h++)
+					{
+						myThings[h] -> hide();
+					}
+					
+					player -> hide();
+					namePrompt -> show();
+					namePrompt -> setText("You lose");
+
+				}
+				justHit = 1;
+			}
+			
+			for (unsigned int j = 0; j < myThings.size(); j++)
+			{
+				if (i == j)
+				{
+					continue;
+				}
+				
+				if (myThings[j] -> isBad() && myThings[i]->isBad() == false && myThings[i]->collidesWithItem(myThings[j]))
+				{
+					myThings[i] -> isHit();
+					myThings[j] -> isHit();
+				}
+			}
+			
+			if(myThings[i] -> getHP() == 0 || myThings[i] -> getY() > WINDOW_MAX_Y || myThings[i] -> getY() < -WINDOW_MAX_Y - 30 || myThings[i] -> getX() > WINDOW_MAX_X || myThings[i] -> getX() < -WINDOW_MAX_X)
+			{
+				delete myThings[i];
+				vector <Thing*>::iterator Itone;
+				Itone = myThings.begin() + i;
+				myThings.erase(Itone);
+			}
+			
+			
+		}
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -48,6 +139,37 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		case Qt::Key_Up:
 			player -> moveUp();
 			break;
+		case Qt::Key_Space:
+			
+			if(justShot == 0)
+			{
+				Lazer * lazer = new Lazer(bulletImage, player->getX(), player->getY());
+				myThings.push_back(lazer);
+				startingScene -> addItem(lazer);
+				justShot = 6;
+			}
+			break;
+		case Qt::Key_P:
+			if (timer -> isActive())
+			{
+				timer -> stop();
+			}else{
+				timer -> start();
+			}
+			break;
+		case Qt::Key_B:
+			if (numBombs > 0)
+			{
+				for(int i = 0; i < myThings.size(); i++)
+				{
+					delete myThings[i];
+				}
+				myThings.clear();
+				numBombs --;
+			}
+			break;
+				
+		
 	}
 
 }
@@ -64,28 +186,64 @@ void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event)
 MainWindow::MainWindow()  {	
 	namePrompt = new QLabel("Name:");
 	mainLayout = new QVBoxLayout;
+	lives = new QHBoxLayout;
+	spawnNumber = 500;
     left = 0;
+    justShot = 5;
+    justHit = 0;
     std::srand(time(0));
+    numBombs = 3;
     numHandles = 0;
+    scoreNumber = 0;
     startingScene = new QGraphicsScene();
     startingScene->setSceneRect(-WINDOW_MAX_X, -WINDOW_MAX_Y , 2*WINDOW_MAX_X -10 , 2*WINDOW_MAX_Y -10);
     startingScene->setBackgroundBrush(QBrush(Qt::blue));
     view = new QGraphicsView( startingScene );
-    mainLayout->addWidget(view);
+    
+    
+    
+    heartOne = new QLabel();
+    heartTwo = new QLabel();
+    heartThree = new QLabel();
+    
+	
+
 
     startButton = new QPushButton("Start Game");
     stopButton = new QPushButton("Quit");
     name = new QTextEdit("");  
     timer = new QTimer();
-    intro = new QLabel("Welcome to my game!");
-    namePrompt = new QLabel("Name:");
+    
+    timer -> setInterval(30);
+    
+    
     
     sharkImage = new QPixmap("Images/shark.png");
     playerImage = new QPixmap("Images/carry.png");
     squidImage = new QPixmap("Images/squid.PNG");
     mantaImage = new QPixmap("Images/manta.png");
+    bulletImage = new QPixmap("Images/bullet.gif");
+    heartImage = new QPixmap("Images/heart.png");
+    
+    heartOne -> setPixmap(*heartImage);
+    heartTwo -> setPixmap(*heartImage);
+    heartThree -> setPixmap(*heartImage);
 	
 	player = new Player(playerImage, 0, 0);
+	score = new QLabel;
+	score -> setText("0");
+	
+	lives->addWidget( heartOne);
+    lives->addWidget( heartTwo);
+    lives->addWidget( heartThree);
+    lives->addWidget( score);
+
+    mainLayout->addLayout(lives);
+
+    mainLayout->addWidget(view);
+    
+    intro = new QLabel("Welcome to my game!");
+    namePrompt = new QLabel("Name:");
 
 	
 	startButton->resize(200,30);

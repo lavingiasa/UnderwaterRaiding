@@ -10,15 +10,49 @@ Thing::Thing( QPixmap* p, int nx, int ny )
 	setPos( x, y );
 }
 
+int Thing::getY()
+{
+	return y;
+}
+
+int Thing::getX()
+{
+	return x;
+}
+
 Player::Player(QPixmap *pm, int nx, int ny): Thing(pm, nx, ny)
 {
 	setPixmap(*pm);
+	hp_= 3;
+}
+
+void Thing::isHit()
+{
+	hp_--;
+}
+
+
+bool Thing::isBad()
+{
+	if(bad == 1)
+	{
+		return true;
+	}else{
+		return false;
+	}
 }
 
 Squid::Squid(QPixmap *pm, int nx, int ny, int left): Thing (pm, nx, ny)
 {
 	setPixmap(*pm);
 	left_ = left;
+	hp_ = 1;
+	bad = 1;
+}
+
+void Squid::hit()
+{
+	hp_ --;
 }
 
 void Squid::move()
@@ -26,37 +60,44 @@ void Squid::move()
 	if(left_ == 1)
 	{
 		moveBy(-1,1);
+		x--;
 	}else{
 		moveBy(1,1);
+		x++;
 	}
-	x++;
-	y--;
+	
+	y++;
 }
-	
-/*Manta::Manta(QPixMap *pm, int nx, int ny): Thing (pm, nx, ny)
-{
-	
-}*/
 
 void Manta::move()
 {
-	moveBy(1,-1);
+	moveBy(0,1);
 }
-
-/*Shark::Shark(QPixMap *pm, int nx, int ny): Thing (pm, nx, ny)
-{
-	
-}*/
 
 void Shark::move()
 {
-	moveBy(10,-10);
+	if(goingLeft < 30)
+	{
+		moveBy(2,2);
+		goingLeft ++;
+	}
+	
+	if(goingLeft >= 30)
+	{
+		moveBy(-2,2);
+		goingLeft ++;
+	}
+	
+	if (goingLeft == 60)
+	{
+		goingLeft = 0;
+	}
 }
 
 void Player::moveUp()
 {
-	cout << "Up" << endl;
-	if(y > 0)
+	//cout << "Up" << endl;
+	if(y > -WINDOW_MAX_Y)
 	{
 		moveBy(0,-10);
 		y = y - 10;
@@ -64,8 +105,8 @@ void Player::moveUp()
 }
 void Player::moveDown()
 {
-	cout << "Down" << endl;
-	if(y < WINDOW_MAX_Y*2-55)
+	//cout << "Down" << endl;
+	if(y < WINDOW_MAX_Y-65)
 	{
 		moveBy(0,10);
 		y = y + 10;
@@ -74,7 +115,7 @@ void Player::moveDown()
 
 void Player::moveLeft()
 {
-	cout << "Left" << endl;
+	//cout << "Left" << endl;
 	if(x > -WINDOW_MAX_X)
 	{
 		moveBy(-10,0);
@@ -84,8 +125,8 @@ void Player::moveLeft()
 
 void Player::moveRight()
 {
-	cout << "Right" << endl;
-	if(x < WINDOW_MAX_X*2)
+	//cout << "Right" << endl;
+	if(x < WINDOW_MAX_X - 100)
 	{
 		moveBy(10,0);
 		x = x + 10;
@@ -96,4 +137,48 @@ void Player::moveRight()
 void Player::move()
 {
 	
+}
+
+int Thing::getHP()
+{
+	return hp_;
+}
+
+
+int Player::getX()
+{
+	return x;
+}
+
+int Player::getY()
+{
+	return y;
+}
+
+Lazer::Lazer (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 0;
+	hp_ = 1;
+}
+
+Manta::Manta (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 1;
+	hp_ = 10;
+}
+
+Shark::Shark (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
+{
+	setPixmap(*pm);
+	bad = 1;
+	hp_ = 5;
+	goingLeft = 0;
+}
+
+void Lazer::move()
+{
+	moveBy(0,-5);
+	y = y - 5;
 }
