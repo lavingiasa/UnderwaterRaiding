@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+	#include "mainwindow.h"
 
 using namespace std;
 
@@ -6,6 +6,9 @@ void MainWindow::handleTimer()
 {
 	numHandles ++;
 	scoreNumber ++;
+	justHitCount ++;
+	ShieldHitCount ++;
+	bombTimer ++;
 	
 	stringstream ss; 
 	ss << scoreNumber;
@@ -13,6 +16,54 @@ void MainWindow::handleTimer()
 
 	background -> moveBy(0,1);
 	background2 -> moveBy(0,1);
+	
+	if(justHitCount == 100)
+	{
+		justHit = 0;
+		player -> setPixmap(*playerShield);
+
+	}
+	
+	if(ShieldHitCount == 100)
+	{
+		justHit = 0;
+		player -> setPixmap(*playerImage);
+
+	}
+	
+	if(bombTimer == 1)
+	{
+		startingScene -> setBackgroundBrush(Qt::white);
+		background -> hide();
+		background2 -> hide();
+	}
+	
+	if(bombTimer == 5)
+	{
+		background -> show();
+		background2 -> show();
+	}
+	
+	if(bombTimer == 10)
+	{
+		startingScene -> setBackgroundBrush(Qt::cyan);
+		background -> hide();
+		background2 -> hide();
+	}
+	
+	if(bombTimer == 15)
+	{
+		startingScene -> setBackgroundBrush(Qt::blue);
+		background -> show();
+		background2 -> show();
+	}
+	
+	if(justHit == 1)
+	{
+		player -> setPixmap(*playerShield);
+	}else{
+		player -> setPixmap(*playerImage);
+	}
 
 	if(background -> y() == WINDOW_MAX_Y)
 	{
@@ -36,7 +87,7 @@ void MainWindow::handleTimer()
 		numHandles = 0;
 		myThings.push_back(currShark);
 		startingScene->addItem(currShark);
-		if(spawnNumber >= 50)
+		if(spawnNumber > 50)
 		{
 			spawnNumber = spawnNumber - 50;
 		}
@@ -59,7 +110,6 @@ void MainWindow::handleTimer()
 	{
 		Squid * currSquid;
 
-		justHit = 0;
 		if(left == 1)
 		{
 			currSquid = new Squid(squidImage, 200, -300, left);
@@ -78,6 +128,10 @@ void MainWindow::handleTimer()
 	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
 			myThings[i]->move();
+			if(spawnNumber < 400)
+			{
+				myThings[i]->move();
+			}
 		}
 	
 	for(unsigned int i = 0; i < myThings.size(); i ++)
@@ -120,6 +174,9 @@ void MainWindow::handleTimer()
 				if (myThings[i] -> powerUpNumber() == 3)
 					{
 						justHit = 1;
+						ShieldHitCount = 0;
+
+						player -> setPixmap(*playerShield);
 						delete myThings[i];
 						vector <Thing*>::iterator Itone;
 						Itone = myThings.begin() + i;
@@ -165,6 +222,7 @@ void MainWindow::handleTimer()
 
 				}
 				justHit = 1;
+				justHitCount = 0;
 			}
 			
 			for (unsigned int j = 0; j < myThings.size(); j++)
@@ -190,7 +248,7 @@ void MainWindow::handleTimer()
 				
 				if(myThings[i] -> isBad())
 				{
-					if(rand()%10 == 1)
+					if(rand()%200 == 1)
 					{
 						PlusBomb * currBomb = new PlusBomb(bombImage, myThings[i] -> getX(), myThings[i] -> getY());
 						myThings.push_back(currBomb);
@@ -204,14 +262,14 @@ void MainWindow::handleTimer()
 						startingScene -> addItem(currPoints);
 					}
 					
-					if(rand()%10 == 3)
+					if(rand()%100 == 3)
 					{
 						Shield * currShield = new Shield(shieldImage, myThings[i] -> getX(), myThings[i] -> getY());
 						myThings.push_back(currShield);
 						startingScene -> addItem(currShield);
 					}
 					
-					if(rand()%10 == 4)
+					if(rand()%25 == 4)
 					{
 						BetterGun * currGun = new BetterGun(gunImage, myThings[i] -> getX(), myThings[i] -> getY());
 						myThings.push_back(currGun);
@@ -252,12 +310,8 @@ void MainWindow::handleTimer()
 					player -> hide();
 					namePrompt -> show();
 					namePrompt -> setText("You lose");
-
 				}
-				
 			}
-			
-			
 		}
 }
 
@@ -265,16 +319,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (event -> key())
     {
-		case Qt::Key_Left:
+		case Qt::Key_A:
 			player -> moveLeft();
 			break;
-		case Qt::Key_Right:
+		case Qt::Key_D:
 			player -> moveRight();
 			break;
-		case Qt::Key_Down:
+		case Qt::Key_S:
 			player -> moveDown();
 			break;
-		case Qt::Key_Up:
+		case Qt::Key_W:
 			player -> moveUp();
 			break;
 		case Qt::Key_Space:
@@ -308,8 +362,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			}
 			break;
 		case Qt::Key_B:
-			if (numBombs > 0)
+			if (gameInProgress == 1 && numBombs > 0)
 			{
+				bombTimer = 0;
+
+				
 				for(int i = 0; i < myThings.size(); i++)
 				{
 					delete myThings[i];
@@ -327,6 +384,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 				{
 					bombOne -> hide();
 				}
+				
 				
 			}
 			
@@ -354,6 +412,8 @@ MainWindow::MainWindow()  {
 	hitEdge = 0;
 	spawnNumber = 500;
 	gameInProgress = 0;
+	bombTimer = 200;
+	ShieldHitCount = 200;
     left = 0;
     justShot = 5;
     justHit = 0;
@@ -363,7 +423,12 @@ MainWindow::MainWindow()  {
     scoreNumber = 0;
     intGunToUse = 0;
     startingScene = new QGraphicsScene();
-
+    instructions = new QLabel("Instructions: \nWASD to move\nB to use your bomb\nP to pause\nSpace to shoot\nAvoid getting hit by enemies and don't let them escape");
+    instructions -> setAlignment( Qt::AlignCenter );
+    instructions->setStyleSheet("QLabel { color : white; }");
+    instructions -> move(-185, 0);
+    instructions -> setAttribute(Qt::WA_TranslucentBackground);
+    
     ocean2 = new QPixmap("Images/ocean2.png");
      
     background = new QGraphicsPixmapItem(QPixmap("Images/ocean1.png"));
@@ -374,6 +439,7 @@ MainWindow::MainWindow()  {
 	
     startingScene -> addItem(background);
     startingScene -> addItem(background2);
+    startingScene -> addWidget(instructions);
 
     startingScene->setSceneRect(-WINDOW_MAX_X, -WINDOW_MAX_Y , 2*WINDOW_MAX_X -10 , 2*WINDOW_MAX_Y -10);
     view = new QGraphicsView( startingScene );
@@ -387,6 +453,8 @@ MainWindow::MainWindow()  {
 	bombOne = new QLabel();
     bombTwo = new QLabel();
     bombThree = new QLabel();
+    
+    scorePrompt = new QLabel("Score: ");
     
 	
 
@@ -410,14 +478,18 @@ MainWindow::MainWindow()  {
     heartImage = new QPixmap("Images/heart.png");
     bombImage = new QPixmap("Images/bomb.png");
     pointsImage = new QPixmap("Images/medal.gif");
-    shieldImage = new QPixmap("Images/shield.png");
-    gunImage = new QPixmap("Images/gun.png");
+    shieldImage = new QPixmap("Images/shieldIcon.png");
+    gunImage = new QPixmap("Images/fire.png");
     thickBulletImage = new QPixmap("Images/laser.png");
+    playerShield = new QPixmap("Images/playerShield.png");
     
     *sharkImage = sharkImage -> scaled(60,110);
     *playerImage = playerImage -> scaled (80, 80);
+    *playerShield = playerShield -> scaled (80,80);
     *thickBulletImage = thickBulletImage -> scaled(100,100); 
     *bulletImage = bulletImage -> scaled(20,20);
+    *gunImage = gunImage -> scaled(30,30);
+    *shieldImage = shieldImage -> scaled (30,30);
     
     heartOne -> setPixmap(*heartImage);
     heartTwo -> setPixmap(*heartImage);
@@ -428,18 +500,26 @@ MainWindow::MainWindow()  {
     bombThree -> setPixmap(*bombImage);
 
 	
-	player = new Player(playerImage, 0, 0);
+	player = new Player(playerImage, -40, 200);
+
 	score = new QLabel;
 	score -> setText("0");
 	
 	lives->addWidget( heartOne);
     lives->addWidget( heartTwo);
     lives->addWidget( heartThree);
-    lives->addWidget( score);
+    
+    lives->addStretch();
 
 	lives->addWidget( bombOne);
     lives->addWidget( bombTwo);
     lives->addWidget( bombThree);
+    
+    lives->addStretch();
+
+    lives->addWidget( scorePrompt);
+    lives->addWidget( score);
+    
     
     mainLayout->addLayout(lives);
 
@@ -533,6 +613,7 @@ bool MainWindow::startGame()
 	setFocus();
 	startButton -> hide();
 	name -> hide();
+	instructions -> hide();
 	namePrompt -> setText(name -> toPlainText());
 	startingScene -> addItem(player);
 	timer -> start();

@@ -32,6 +32,7 @@
 #include <QHBoxLayout>
 #include <cstdlib>
 #include <sstream>
+#include <QSpacerItem>
 
 
 #include "things.h"
@@ -66,19 +67,23 @@ private:
     QTextEdit *name;
     QLabel *intro;
     QLabel *namePrompt;
+    QLabel *instructions;
     
     QLabel *heartOne;
     QLabel *heartTwo;
     QLabel *heartThree;
+    
     
     QLabel *bombOne;
     QLabel *bombTwo;
     QLabel *bombThree;
     
     QLabel *score;
+    QLabel *scorePrompt;
     
     int scoreNumber;
     int numBombs;
+    int bombTimer;
     
     QPixmap* sharkImage;
     QPixmap* playerImage;
@@ -92,11 +97,14 @@ private:
     QPixmap* gunImage;
     QPixmap* thickBulletImage;
     QPixmap* ocean2;
+    QPixmap* playerShield;
+    
     QGraphicsPixmapItem* background;
     QGraphicsPixmapItem* background2;
     
     int intGunToUse;
     int gameInProgress;
+    int ShieldHitCount;
     
     Player* player;
     
@@ -105,6 +113,7 @@ private:
     int numHandles;
     int left;
     int justHit;
+    int justHitCount;
     
     int value_;    
     QTimer *timer;
