@@ -132,6 +132,7 @@ void MainWindow::handleTimer()
 						vector <Thing*>::iterator Itone;
 						Itone = myThings.begin() + i;
 						myThings.erase(Itone);
+						intGunToUse = 1;
 						
 					}
 			}
@@ -215,7 +216,6 @@ void MainWindow::handleTimer()
 						BetterGun * currGun = new BetterGun(gunImage, myThings[i] -> getX(), myThings[i] -> getY());
 						myThings.push_back(currGun);
 						startingScene -> addItem(currGun);
-						intGunToUse = 1;
 					}
 				}
 				
