@@ -51,7 +51,6 @@ public:
 	/**Destructor */
     ~MainWindow();
 	/**show the GUI */
-    //void show();
     void  mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     
@@ -59,8 +58,11 @@ private:
     QGraphicsScene *startingScene;
     QGraphicsScene *gameScene;
     QGraphicsView *view;
+    
     QPushButton *startButton;
     QPushButton *stopButton;
+    QPushButton *pauseButton;
+    
     QTextEdit *name;
     QLabel *intro;
     QLabel *namePrompt;
@@ -89,14 +91,16 @@ private:
     QPixmap* shieldImage;
     QPixmap* gunImage;
     QPixmap* thickBulletImage;
+    QPixmap* ocean2;
+    QGraphicsPixmapItem* background;
+    QGraphicsPixmapItem* background2;
     
     int intGunToUse;
+    int gameInProgress;
     
     Player* player;
     
     vector<Thing*> myThings;
-    
-
 
     int numHandles;
     int left;
@@ -109,6 +113,7 @@ private:
 
 	int spawnNumber;
 	int justShot;
+	int hitEdge;
 
 
 public slots:
@@ -118,6 +123,8 @@ public slots:
     void exitGame();
 	/** The slot to handle the timer*/
     void handleTimer();
+    /** The slot to handle the pause*/
+    void pauseGame();
     
 protected:
 	void keyPressEvent(QKeyEvent *event);

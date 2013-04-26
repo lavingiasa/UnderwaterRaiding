@@ -11,6 +11,19 @@ void MainWindow::handleTimer()
 	ss << scoreNumber;
 	string str = ss.str();
 
+	background -> moveBy(0,1);
+	background2 -> moveBy(0,1);
+
+	if(background -> y() == WINDOW_MAX_Y)
+	{
+		background -> setPos(-WINDOW_MAX_X-5,-3*WINDOW_MAX_Y);
+	}
+	
+	if(background2 -> y() == WINDOW_MAX_Y)
+	{
+		background2 -> setPos(-WINDOW_MAX_X-5,-3*WINDOW_MAX_Y);
+	}
+
 	score -> setText(str.c_str());
 	if(justShot > 0)
 	{
@@ -32,6 +45,7 @@ void MainWindow::handleTimer()
 	
 	if(numHandles % (spawnNumber/2) == 1)
 	{
+		intGunToUse = 0;
 		Manta * currManta = new Manta(mantaImage,0,-300);
 		myThings.push_back(currManta);
 		startingScene -> addItem(currManta);
@@ -168,6 +182,11 @@ void MainWindow::handleTimer()
 			
 			if(myThings[i] -> getHP() == 0 || myThings[i] -> getY() > WINDOW_MAX_Y || myThings[i] -> getY() < -WINDOW_MAX_Y - 30 || myThings[i] -> getX() > WINDOW_MAX_X || myThings[i] -> getX() < -WINDOW_MAX_X)
 			{
+				if(myThings[i] -> getY() > WINDOW_MAX_Y || myThings[i] -> getY() < -WINDOW_MAX_Y - 30 || myThings[i] -> getX() > WINDOW_MAX_X || myThings[i] -> getX() < -WINDOW_MAX_X)
+				{
+					hitEdge = 1;
+				}
+				
 				if(myThings[i] -> isBad())
 				{
 					if(rand()%10 == 1)
@@ -200,10 +219,41 @@ void MainWindow::handleTimer()
 					}
 				}
 				
+				
+				if(myThings[i] -> isBad() && hitEdge == 1)
+				{
+					player->isHit();
+					if (player->getHP() == 2)
+					{
+						heartThree -> hide();
+					}else if(player->getHP() == 1)
+					{
+						heartTwo -> hide();
+					}else if (player->getHP() == 0)
+					{
+						heartOne -> hide();
+					}
+				}
+		
 				delete myThings[i];
 				vector <Thing*>::iterator Itone;
 				Itone = myThings.begin() + i;
 				myThings.erase(Itone);
+				hitEdge = 0;
+				
+				if(player->getHP() == -1)
+				{
+					timer -> stop();
+					for (unsigned int h = 0; h < myThings.size(); h++)
+					{
+						myThings[h] -> hide();
+					}
+					
+					player -> hide();
+					namePrompt -> show();
+					namePrompt -> setText("You lose");
+
+				}
 				
 			}
 			
@@ -231,14 +281,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			
 			if(justShot == 0)
 			{
-				cout << intGunToUse << endl;
 				Lazer * lazer;
 				
-				if (intGunToUse == 1)
+				if (intGunToUse == 0)
 				{
-					lazer = new Lazer(bulletImage, player->getX(), player->getY());
-				}else{
-					lazer = new Lazer(thickBulletImage, player->getX(), player->getY());
+					lazer = new Lazer(bulletImage, player->getX() + 30, player->getY());
+				}else if(intGunToUse == 1){
+					lazer = new Lazer(thickBulletImage, player->getX() - 5, player->getY() - 50);
 				}
 				myThings.push_back(lazer);
 				startingScene -> addItem(lazer);
@@ -246,11 +295,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			}
 			break;
 		case Qt::Key_P:
-			if (timer -> isActive())
+			if(gameInProgress == 1)
 			{
-				timer -> stop();
-			}else{
-				timer -> start();
+				if (timer -> isActive())
+				{
+					timer -> stop();
+					pauseButton -> setText("Resume");
+				}else{
+					timer -> start();
+					pauseButton -> setText("Pause");
+				}
 			}
 			break;
 		case Qt::Key_B:
@@ -273,6 +327,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 				{
 					bombOne -> hide();
 				}
+				
 			}
 			
 			break;
@@ -296,7 +351,9 @@ MainWindow::MainWindow()  {
 	namePrompt = new QLabel("Name:");
 	mainLayout = new QVBoxLayout;
 	lives = new QHBoxLayout;
+	hitEdge = 0;
 	spawnNumber = 500;
+	gameInProgress = 0;
     left = 0;
     justShot = 5;
     justHit = 0;
@@ -306,8 +363,19 @@ MainWindow::MainWindow()  {
     scoreNumber = 0;
     intGunToUse = 0;
     startingScene = new QGraphicsScene();
+
+    ocean2 = new QPixmap("Images/ocean2.png");
+     
+    background = new QGraphicsPixmapItem(QPixmap("Images/ocean1.png"));
+	background -> setPos(-WINDOW_MAX_X-5,-WINDOW_MAX_Y-5);
+	
+	background2 = new QGraphicsPixmapItem(QPixmap("Images/ocean2.png"));
+	background2 -> setPos(-WINDOW_MAX_X-5,-3*WINDOW_MAX_Y-5);
+	
+    startingScene -> addItem(background);
+    startingScene -> addItem(background2);
+
     startingScene->setSceneRect(-WINDOW_MAX_X, -WINDOW_MAX_Y , 2*WINDOW_MAX_X -10 , 2*WINDOW_MAX_Y -10);
-    startingScene->setBackgroundBrush(QBrush(Qt::blue));
     view = new QGraphicsView( startingScene );
     
     
@@ -325,6 +393,8 @@ MainWindow::MainWindow()  {
 
     startButton = new QPushButton("Start Game");
     stopButton = new QPushButton("Quit");
+    pauseButton = new QPushButton("Pause");
+    
     name = new QTextEdit("");  
     timer = new QTimer();
     
@@ -336,13 +406,18 @@ MainWindow::MainWindow()  {
     playerImage = new QPixmap("Images/carry.png");
     squidImage = new QPixmap("Images/squid.PNG");
     mantaImage = new QPixmap("Images/manta.png");
-    bulletImage = new QPixmap("Images/bullet.gif");
+    bulletImage = new QPixmap("Images/bullet.png");
     heartImage = new QPixmap("Images/heart.png");
     bombImage = new QPixmap("Images/bomb.png");
     pointsImage = new QPixmap("Images/medal.gif");
     shieldImage = new QPixmap("Images/shield.png");
     gunImage = new QPixmap("Images/gun.png");
     thickBulletImage = new QPixmap("Images/laser.png");
+    
+    *sharkImage = sharkImage -> scaled(60,110);
+    *playerImage = playerImage -> scaled (80, 80);
+    *thickBulletImage = thickBulletImage -> scaled(100,100); 
+    *bulletImage = bulletImage -> scaled(20,20);
     
     heartOne -> setPixmap(*heartImage);
     heartTwo -> setPixmap(*heartImage);
@@ -384,14 +459,16 @@ MainWindow::MainWindow()  {
 	namePrompt->move(100,60);
 	
 	name->resize(200,30);
+	name -> setFixedHeight(30);
 	name->move(100,90);
 	
 	intro->resize(200,30);
 	intro->move(200,200);
 		
-    mainLayout->addWidget( startButton );
+    mainLayout->addWidget( startButton);
     mainLayout->addWidget( stopButton );
-    mainLayout->addWidget( namePrompt);
+    mainLayout->addWidget( pauseButton);
+    mainLayout->addWidget( namePrompt );
     mainLayout->addWidget( name );
     
 	    
@@ -401,9 +478,11 @@ MainWindow::MainWindow()  {
     connect(startButton,SIGNAL(clicked()), this, SLOT(startGame()));
     connect(stopButton,SIGNAL(clicked()), this, SLOT(exitGame()));	
 	connect(timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
+	connect(pauseButton, SIGNAL(clicked()), this, SLOT(pauseGame()));
 	
 	setFocus();
 	setLayout(mainLayout);
+	pauseButton -> hide();
 
 }
 
@@ -411,10 +490,18 @@ MainWindow::MainWindow()  {
  * 
  */
 
-/*void MainWindow::show() 
+void MainWindow::pauseGame() 
 {
-    view->show();
-}*/
+	if(timer -> isActive())
+	{
+		timer -> stop();
+		pauseButton -> setText("Resume");
+	}else{
+		timer -> start();
+		pauseButton -> setText("Pause");
+	}
+	
+}
 
 /** This is the destructor 
  * 
@@ -446,10 +533,11 @@ bool MainWindow::startGame()
 	setFocus();
 	startButton -> hide();
 	name -> hide();
-	namePrompt -> hide();
+	namePrompt -> setText(name -> toPlainText());
 	startingScene -> addItem(player);
 	timer -> start();
-
+	pauseButton -> show();
+	gameInProgress = 1;
 	
 	
 	
