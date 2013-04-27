@@ -1,6 +1,12 @@
 #include "things.h"
 
 using namespace std;
+/**
+ *A abstract "thing" class, which the rest of the things will inherit and impliment
+ * 
+ * @author Samir Lavingia
+ * 
+ */
 
 Thing::Thing( QPixmap* p, int nx, int ny ) 
 {

@@ -84,6 +84,7 @@ private:
     int scoreNumber;
     int numBombs;
     int bombTimer;
+    int gunTimer;
     
     QPixmap* sharkImage;
     QPixmap* playerImage;

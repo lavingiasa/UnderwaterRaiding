@@ -9,6 +9,7 @@ void MainWindow::handleTimer()
 	justHitCount ++;
 	ShieldHitCount ++;
 	bombTimer ++;
+	gunTimer ++;
 	
 	stringstream ss; 
 	ss << scoreNumber;
@@ -22,6 +23,11 @@ void MainWindow::handleTimer()
 		justHit = 0;
 		player -> setPixmap(*playerShield);
 
+	}
+	
+	if(gunTimer == 100)
+	{
+		intGunToUse = 0;
 	}
 	
 	if(ShieldHitCount == 100)
@@ -96,7 +102,6 @@ void MainWindow::handleTimer()
 	
 	if(numHandles % (spawnNumber/2) == 1)
 	{
-		intGunToUse = 0;
 		Manta * currManta = new Manta(mantaImage,0,-300);
 		myThings.push_back(currManta);
 		startingScene -> addItem(currManta);
@@ -190,6 +195,7 @@ void MainWindow::handleTimer()
 						Itone = myThings.begin() + i;
 						myThings.erase(Itone);
 						intGunToUse = 1;
+						gunTimer = 0;
 						
 					}
 			}
@@ -422,6 +428,7 @@ MainWindow::MainWindow()  {
     numHandles = 0;
     scoreNumber = 0;
     intGunToUse = 0;
+    gunTimer = 200;
     startingScene = new QGraphicsScene();
     instructions = new QLabel("Instructions: \nWASD to move\nB to use your bomb\nP to pause\nSpace to shoot\nAvoid getting hit by enemies and don't let them escape");
     instructions -> setAlignment( Qt::AlignCenter );
