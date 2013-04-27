@@ -247,6 +247,7 @@ void MainWindow::handleTimer()
 					player -> hide();
 					namePrompt -> show();
 					namePrompt -> setText("You lose");
+					gameInProgress = 0;
 
 				}
 				justHit = 1;
@@ -346,6 +347,7 @@ void MainWindow::handleTimer()
 					player -> hide();
 					namePrompt -> show();
 					namePrompt -> setText("You lose");
+					gameInProgress = 0;
 				}
 			}
 		}
@@ -373,7 +375,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			break;
 		case Qt::Key_Space:
 			//checking if I just shot because I have to reload things
-			if(justShot == 0)
+			if(justShot == 0 && gameInProgress == 1)
 			{
 				Lazer * lazer;
 				//checks what gun it is supposed to use and uses it
