@@ -2,6 +2,8 @@
 
 using namespace std;
 
+
+/** handles the timer and stuff to make sure the game works as intended. It is the drum breat of the game */
 void MainWindow::handleTimer() 
 {
 	numHandles ++;
@@ -18,6 +20,7 @@ void MainWindow::handleTimer()
 	background -> moveBy(0,1);
 	background2 -> moveBy(0,1);
 	
+	//if it has been 100 cycles since my last hit, let it hit me again
 	if(justHitCount == 100)
 	{
 		justHit = 0;
@@ -25,18 +28,21 @@ void MainWindow::handleTimer()
 
 	}
 	
+	//if it has been 100 cycles since my last hit, give me teh bad gun again
 	if(gunTimer == 100)
 	{
 		intGunToUse = 0;
 	}
 	
+	//if it has been 100 cycles since my last hit, get rid of my shield
 	if(ShieldHitCount == 100)
 	{
 		justHit = 0;
 		player -> setPixmap(*playerImage);
 
 	}
-	
+	//next 4 if statements are for the bomb animation once it is used
+
 	if(bombTimer == 1)
 	{
 		startingScene -> setBackgroundBrush(Qt::white);
@@ -64,6 +70,7 @@ void MainWindow::handleTimer()
 		background2 -> show();
 	}
 	
+	//make it so it sets the right image for the player, based on shields
 	if(justHit == 1)
 	{
 		player -> setPixmap(*playerShield);
@@ -71,22 +78,26 @@ void MainWindow::handleTimer()
 		player -> setPixmap(*playerImage);
 	}
 
+	//keep the background connected
 	if(background -> y() == WINDOW_MAX_Y)
 	{
 		background -> setPos(-WINDOW_MAX_X-5,-3*WINDOW_MAX_Y);
 	}
 	
+	//keep the background connected
 	if(background2 -> y() == WINDOW_MAX_Y)
 	{
 		background2 -> setPos(-WINDOW_MAX_X-5,-3*WINDOW_MAX_Y);
 	}
-
+	//change the score
 	score -> setText(str.c_str());
+	
+	//timer for shooting
 	if(justShot > 0)
 	{
 		justShot --;
 	}
-
+	//make a shark
 	if(numHandles == spawnNumber)
 	{
 		Shark * currShark = new Shark(sharkImage, 0,-300);
@@ -100,6 +111,7 @@ void MainWindow::handleTimer()
 
 	}
 	
+	//make a manta
 	if(numHandles % (spawnNumber/2) == 1)
 	{
 		Manta * currManta = new Manta(mantaImage,0,-300);
@@ -111,6 +123,7 @@ void MainWindow::handleTimer()
 		
 	}
 		
+	//make a squid
 	if (numHandles % (spawnNumber/20) == 1)
 	{
 		Squid * currSquid;
@@ -129,7 +142,7 @@ void MainWindow::handleTimer()
 		startingScene->addItem(currSquid);
 
 	}
-	
+	//move everything. if a certain amount of time has passed, move everything again
 	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
 			myThings[i]->move();
@@ -138,11 +151,13 @@ void MainWindow::handleTimer()
 				myThings[i]->move();
 			}
 		}
-	
+	//checks the collisions
 	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
+			//with teh player
 			if(!(myThings[i]->isBad()) && player->collidesWithItem(myThings[i]))
 			{
+				//if it is a bomb
 				if (myThings[i] -> powerUpNumber() == 1)
 				{
 					if(numBombs < 3)
@@ -167,6 +182,7 @@ void MainWindow::handleTimer()
 						}
 					}
 				}
+				//if it is for more points
 				if (myThings[i] -> powerUpNumber() == 2)
 					{
 						scoreNumber += 1000;
@@ -176,6 +192,7 @@ void MainWindow::handleTimer()
 						myThings.erase(Itone);
 						
 					}
+				//if it is the shield
 				if (myThings[i] -> powerUpNumber() == 3)
 					{
 						justHit = 1;
@@ -188,6 +205,7 @@ void MainWindow::handleTimer()
 						myThings.erase(Itone);
 						
 					}
+				//if it is the better gun
 				if (myThings[i] -> powerUpNumber() == 4)
 					{
 						delete myThings[i];
@@ -199,9 +217,10 @@ void MainWindow::handleTimer()
 						
 					}
 			}
-			
+			//compares if the item collides with a bad thing
 			if(myThings[i]->isBad() && player->collidesWithItem(myThings[i]) && justHit == 0)
 			{
+				//gets hit
 				player->isHit();
 				if (player->getHP() == 2)
 				{
@@ -214,6 +233,7 @@ void MainWindow::handleTimer()
 					heartOne -> hide();
 				}
 				
+				//if it is dead, end the game
 				if(player->getHP() == -1)
 				{
 					timer -> stop();
@@ -231,6 +251,7 @@ void MainWindow::handleTimer()
 				justHitCount = 0;
 			}
 			
+			//more collisions
 			for (unsigned int j = 0; j < myThings.size(); j++)
 			{
 				if (i == j)
@@ -245,6 +266,7 @@ void MainWindow::handleTimer()
 				}
 			}
 			
+			//if items hit an edge lose a life 
 			if(myThings[i] -> getHP() == 0 || myThings[i] -> getY() > WINDOW_MAX_Y || myThings[i] -> getY() < -WINDOW_MAX_Y - 30 || myThings[i] -> getX() > WINDOW_MAX_X || myThings[i] -> getX() < -WINDOW_MAX_X)
 			{
 				if(myThings[i] -> getY() > WINDOW_MAX_Y || myThings[i] -> getY() < -WINDOW_MAX_Y - 30 || myThings[i] -> getX() > WINDOW_MAX_X || myThings[i] -> getX() < -WINDOW_MAX_X)
@@ -252,8 +274,10 @@ void MainWindow::handleTimer()
 					hitEdge = 1;
 				}
 				
+				//when a thing dies, there is a chance it will drop an item
 				if(myThings[i] -> isBad())
 				{
+					//drop a bomb chance
 					if(rand()%200 == 1)
 					{
 						PlusBomb * currBomb = new PlusBomb(bombImage, myThings[i] -> getX(), myThings[i] -> getY());
@@ -261,6 +285,7 @@ void MainWindow::handleTimer()
 						startingScene -> addItem(currBomb);
 					}
 					
+					//drop an medal for extra point
 					if(rand()%10 == 2)
 					{
 						PlusPoints * currPoints = new PlusPoints(pointsImage, myThings[i] -> getX(), myThings[i] -> getY());
@@ -268,6 +293,7 @@ void MainWindow::handleTimer()
 						startingScene -> addItem(currPoints);
 					}
 					
+					//drop a shield
 					if(rand()%100 == 3)
 					{
 						Shield * currShield = new Shield(shieldImage, myThings[i] -> getX(), myThings[i] -> getY());
@@ -275,6 +301,7 @@ void MainWindow::handleTimer()
 						startingScene -> addItem(currShield);
 					}
 					
+					//drop a better gun
 					if(rand()%25 == 4)
 					{
 						BetterGun * currGun = new BetterGun(gunImage, myThings[i] -> getX(), myThings[i] -> getY());
@@ -283,7 +310,7 @@ void MainWindow::handleTimer()
 					}
 				}
 				
-				
+				//if it hits an edge remove a life
 				if(myThings[i] -> isBad() && hitEdge == 1)
 				{
 					player->isHit();
@@ -305,6 +332,7 @@ void MainWindow::handleTimer()
 				myThings.erase(Itone);
 				hitEdge = 0;
 				
+				//end game if no lives
 				if(player->getHP() == -1)
 				{
 					timer -> stop();
@@ -321,6 +349,7 @@ void MainWindow::handleTimer()
 		}
 }
 
+/** this handles all of the key presses as they should be handled*/
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     switch (event -> key())
@@ -338,11 +367,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			player -> moveUp();
 			break;
 		case Qt::Key_Space:
-			
+			//checking if I just shot because I have to reload things
 			if(justShot == 0)
 			{
 				Lazer * lazer;
-				
+				//checks what gun it is supposed to use and uses it
 				if (intGunToUse == 0)
 				{
 					lazer = new Lazer(bulletImage, player->getX() + 30, player->getY());
@@ -355,6 +384,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			}
 			break;
 		case Qt::Key_P:
+			//pause if the game is active and change the button
 			if(gameInProgress == 1)
 			{
 				if (timer -> isActive())
@@ -368,6 +398,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			}
 			break;
 		case Qt::Key_B:
+			//if I have a bomb and the game is in progress, use it
 			if (gameInProgress == 1 && numBombs > 0)
 			{
 				bombTimer = 0;
@@ -402,7 +433,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
 
-/** Constructor. It makes and links all of the pointers that were jsut declared before.
+/** Constructor. It makes and links all of the pointers that were just declared before in the .h.
  * It also positions everything in the correct place and connects and stuff
  * 
  */
@@ -569,7 +600,7 @@ MainWindow::MainWindow()  {
 
 }
 
-/** This is how we get our view displayed
+/** Pause the game by stopping the timer if the game is in progress. If it is not, resume the game
  * 
  */
 
@@ -606,7 +637,7 @@ void MainWindow::exitGame()
 {
 	QApplication::exit(1);
 }
-/** This is the slot for starting the game. It has to check if the numbers in the text boxes were valid then delete the old game and make a new one
+/** This is the slot for starting the game. It hids stuff and shows other stuffs and starts the timer and stuff
  * 
  * @return bool that says if starting the games were effective
  * */
