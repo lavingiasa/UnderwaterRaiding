@@ -354,6 +354,9 @@ void MainWindow::handleTimer()
 /** this handles all of the key presses as they should be handled*/
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    if(event)
+    {
+	}
     switch (event -> key())
     {
 		case Qt::Key_A:
@@ -406,7 +409,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 				bombTimer = 0;
 
 				
-				for(int i = 0; i < myThings.size(); i++)
+				for(unsigned int i = 0; i < myThings.size(); i++)
 				{
 					delete myThings[i];
 				}
@@ -646,11 +649,22 @@ void MainWindow::exitGame()
 
 bool MainWindow::startGame()
 {
+	QString str= name->toPlainText();
+
+	
+	if(str.trimmed().isEmpty())
+	{
+		instructions -> setText("Please enter a name at the bottom of the window");
+		return false;
+		
+	}
 	setFocus();
 	startButton -> hide();
 	name -> hide();
 	instructions -> hide();
-	namePrompt -> setText(name -> toPlainText());
+	
+	
+	namePrompt -> setText(str);
 	startingScene -> addItem(player);
 	timer -> start();
 	pauseButton -> show();
