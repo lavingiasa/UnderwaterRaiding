@@ -37,6 +37,7 @@ class Thing: public QGraphicsPixmapItem
 		int getX();	
 		/**get the power up number of the item. If it is not a power up, the number is zero*/
 		int powerUpNumber();
+		/**get which monster it is */
 
 	protected:
 		/**x position*/
@@ -51,6 +52,8 @@ class Thing: public QGraphicsPixmapItem
 		QPixmap *pixMap;
 		/**int of the power up*/
 		int powerUpNumberz;
+		/** int of which monster */
+		
 };
 
 /**
@@ -225,6 +228,8 @@ class Shark: public Thing
 		/** going left is to help the shark move in a zig zag motion */
 		int goingLeft;
 };
+
+
 
 
 #endif

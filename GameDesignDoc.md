@@ -19,12 +19,10 @@ After millions of years of evolving on the surface, man decided to venture into 
 	+ Cannot shoot
 	+ Moves along a diagonal
 + ##### Shark:
-	+ Shoots
 	+ High HP
 	+ Very slow
 	+ Only moves in a zig zag motion towards the bottom
 + ##### Mantaray:
-	+ Shoots balls of lightning 
 	+ Medium/Slowish
 	+ Medium HP
 	+ Forward

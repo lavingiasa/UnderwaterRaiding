@@ -236,11 +236,13 @@ void MainWindow::handleTimer()
 				//if it is dead, end the game
 				if(player->getHP() == -1)
 				{
-					timer -> stop();
 					for (unsigned int h = 0; h < myThings.size(); h++)
 					{
 						myThings[h] -> hide();
 					}
+					
+					timer -> stop();
+
 					
 					player -> hide();
 					namePrompt -> show();
@@ -335,12 +337,12 @@ void MainWindow::handleTimer()
 				//end game if no lives
 				if(player->getHP() == -1)
 				{
-					timer -> stop();
 					for (unsigned int h = 0; h < myThings.size(); h++)
 					{
 						myThings[h] -> hide();
 					}
-					
+					timer -> stop();
+
 					player -> hide();
 					namePrompt -> show();
 					namePrompt -> setText("You lose");

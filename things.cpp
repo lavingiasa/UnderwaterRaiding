@@ -108,7 +108,7 @@ void Squid::move()
 void PlusBomb::move()
 {
 	moveBy(0,2);
-	y = y + 1;
+	y = y + 2;
 	
 }
 
@@ -262,6 +262,10 @@ Shark::Shark (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
 	powerUpNumberz = 0;
 
 }
+
+
+
+ 
 
 /**
  * @return the number of the power up
