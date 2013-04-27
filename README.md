@@ -26,5 +26,4 @@ doxygen config.txt
 ./game_samirlav
 ```
 
-### Screenshots -- [Optional]
-You can either remove this section or add screenshots if you wish.
+
