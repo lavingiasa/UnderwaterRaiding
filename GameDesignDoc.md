@@ -17,38 +17,36 @@ After millions of years of evolving on the surface, man decided to venture into 
 	+ Low HP
 	+ Moves very quickly
 	+ Cannot shoot
-	+ Moves in a sinusodal fashion towards the centre
+	+ Moves along a diagonal
 + ##### Shark:
-	+ Shoots from 3 different places
+	+ Shoots
 	+ High HP
 	+ Very slow
-	+ Only moves left and right
+	+ Only moves in a zig zag motion towards the bottom
 + ##### Mantaray:
 	+ Shoots balls of lightning 
 	+ Medium/Slowish
 	+ Medium HP
-	+ Forward, left and right
+	+ Forward
 	
 #### Power Ups:
 + ##### Medal:
 	+ Gives plus a bunch of points
-	+ Is only there for 10 seconds
-	+ Stays in place
+	+ Moves down quickly
 + ##### Shield:
 	+ Gives the player invincibiility for a couple of seconds
-	+ Stays in place
-	+ Is only there for 5 seconds
+	+ Moves down
+	+ Lasts for a bit of time
 + ##### +1 Bomb:
 	+ Gives you one more bomb
 	+ Moves to the bottom of the screen
-	+ Is only there for 3 seconds
 + ##### Weapon Power-Up:
 	+ Moves down, left, and right
 	+ Makes your beams wider
-	+ Lasts for the whole game
+	+ Lasts for a bit of time
 
 ## Controls:
-+ Arrow Keys: Move your direction within the scene
++ WASD: Move your direction within the scene
 + Space: Shoot a bullet
 + B: Bombs people
 + P: Pause the game
@@ -63,22 +61,22 @@ After millions of years of evolving on the surface, man decided to venture into 
 + Lives are shown by hearts at the top of the screen
 + When you are shot or rammed into, you lose a heart
 + The player loses when he loses all three lives
++ Lose a heart if an enemy escapes
 
 ## Screenshot and Legend:
-+ ##### Menu:
-	+ There is a menu when you start the game which has two buttons: Controls and Start
-	+ The menu goes away once the game is started
 + ##### Buttons:
 	+ Start makes the game start
 	+ Controls shows the controls to the player
+	+ Exit button exits the game
+	+ Pause button pauses the game
 + ##### Actions:
 	+ None
 + ##### Screen Shot
 ![alt text](http://i.imgur.com/qG9rCIg.jpg "Game UI")
 	+ The lives are in the top left corner, represented by lives
-	+ The score is in the centre top part of the screen
+	+ The score is in the centre right part of the screen
 	+ Power ups appear out of dead bodies and can be picked up. These include the weapon power up, shield, +1 bomb, and bonus points
-	+ The number of bombs left are shown in the bottom left corner of the screen
+	+ The number of bombs left are shown in the top middle of the screen
 	+ The player is in the centre of the screen at the start, but be can move wherever
 	+ Enemies appear at the top of the screen
-	+ The background will most liely be a repeating coral reef 
+	+ The background will most liely be a repeating coral reef or waves
