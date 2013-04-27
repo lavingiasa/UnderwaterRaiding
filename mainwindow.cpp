@@ -443,7 +443,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
  * 
  */
 MainWindow::MainWindow()  {	
-	this -> setWindowTitle("Pew Pew");
+	this -> setWindowTitle("Underwater Raiding");
 	namePrompt = new QLabel("Name:");
 	mainLayout = new QVBoxLayout;
 	lives = new QHBoxLayout;
