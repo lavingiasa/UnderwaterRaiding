@@ -401,10 +401,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
-void MainWindow::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-	cout << "adsf" << endl;
-}
 
 /** Constructor. It makes and links all of the pointers that were jsut declared before.
  * It also positions everything in the correct place and connects and stuff
