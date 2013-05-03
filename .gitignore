@@ -19,3 +19,9 @@ moc_mainwindow.cpp
 *.cpp~
 *.h~
 
+config.txt
+game_samirlav
+html/
+latex/
+mainwindow.h.gch
+moc_things.cpp
