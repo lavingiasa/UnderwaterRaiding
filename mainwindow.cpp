@@ -246,7 +246,10 @@ void MainWindow::handleTimer()
 					
 					player -> hide();
 					namePrompt -> show();
+					writeScores();
+
 					namePrompt -> setText("You lose");
+					instructions -> show();
 					gameInProgress = 0;
 
 				}
@@ -346,7 +349,9 @@ void MainWindow::handleTimer()
 
 					player -> hide();
 					namePrompt -> show();
+					writeScores();
 					namePrompt -> setText("You lose");
+					instructions -> show();
 					gameInProgress = 0;
 				}
 			}
@@ -438,7 +443,96 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 	}
 
 }
+/** loads the scores from the file */
+void MainWindow::loadScores()
+{
+	ifstream ifile ("leaderBoard.txt");
+	string line;
+	int worked = 0;
+	scores.clear();
+	
+	while(ifile.good())
+	{
+		getline (ifile,line);
+		if(line == "")
+		{
+			continue;
+		}
+		scores.push_back(line);
 
+		worked = 1;
+	}
+	
+	//scores.erase(scores.end());
+	
+	if(worked == 1)
+	{
+		ifile.close();
+	}
+	
+	if(!ifile.good())
+	{
+		ofstream outputFile("leaderBoard.txt");		
+	}
+}
+/** Writes the scores to a file */
+void MainWindow::writeScores()
+{
+	remove ("leaderBoard.txt");
+	ofstream outputFile("leaderBoard.txt");
+	stringstream ss1;
+	stringstream ss;
+	string newScore;
+	string name = namePrompt -> text().toStdString();
+	ss1 << name;
+	ss1 << " ";
+	ss1 << scoreNumber;
+	newScore = ss1.str();
+	string name2;
+	int score;
+	
+	if(scores.size() < 1)
+	{
+		outputFile << newScore;
+	}
+	
+	int newor = 0;	
+	for (unsigned int i = 0 ; i < scores.size(); i++)
+	{
+		ss << scores[i];
+		ss >> name2;
+		ss >> score;
+		ss.clear();
+		if(score < scoreNumber)
+		{
+			scores.insert(scores.begin()+i, newScore);
+			newor = 1;
+			break;
+		}
+	}
+	
+	if (newor == 0)
+	{
+		scores.insert(scores.begin()+scores.size(), newScore);
+	}
+	
+	stringstream ss3;
+
+	for (unsigned int i = 0 ; i < scores.size(); i++)
+	{
+		outputFile << scores[i] << endl;
+		ss3 << scores[i] << "\n";
+
+	}
+	string allScores = ss3.str();
+	QString qstr = QString::fromStdString(allScores);
+	instructions -> setText(qstr);
+	
+	
+	outputFile.close();
+	
+
+}
 
 /** Constructor. It makes and links all of the pointers that were just declared before in the .h.
  * It also positions everything in the correct place and connects and stuff
@@ -463,6 +557,12 @@ MainWindow::MainWindow()  {
     scoreNumber = 0;
     intGunToUse = 0;
     gunTimer = 200;
+    
+    loadScores();
+    
+    
+    
+    
     startingScene = new QGraphicsScene();
     instructions = new QLabel("Instructions: \nWASD to move\nB to use your bomb\nP to pause\nSpace to shoot\nAvoid getting hit by enemies and don't let them escape");
     instructions -> setAlignment( Qt::AlignCenter );

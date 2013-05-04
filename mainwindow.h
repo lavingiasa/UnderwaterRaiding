@@ -2,13 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QApplication>
+#include <fstream>
 #include <cmath>
+#include <sstream>
 #include <QPushButton>
 #include <iostream>
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsRectItem>
+#include <QTimer>
 #include <QTimer>
 #include <QString>
 #include <QByteArray>
@@ -57,6 +60,10 @@ public:
     explicit MainWindow();
 	/**Destructor */
     ~MainWindow();
+    /**Load Scores*/
+    void loadScores();
+    /**Writes the scores to the file*/
+    void writeScores();
 
     
 private:
@@ -180,6 +187,8 @@ private:
     /** if an enemy hit an edge*/
 	int hitEdge;
 
+	/**Vector of scores */
+	vector <string> scores;
 
 public slots:
 	/** The slot for the startgame button*/
