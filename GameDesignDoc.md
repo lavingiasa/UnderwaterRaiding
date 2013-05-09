@@ -9,7 +9,7 @@ After millions of years of evolving on the surface, man decided to venture into 
 ## Things:
 #### Player:
 + You control a submarine that can shoot bullets made of lasers
-+ The player has 3 lives and the player will lose a heart everytime he is shot or rammed into. After you lose a heart you will have invincibility for a couple of seconds
++ The player has 3 lives and the player will lose a heart every time he is shot or rammed into. After you lose a heart you will have invincibility for a couple of seconds
 + The player has bombs that can be used to do massive damage to all the enemies on the screen
 
 #### Enemies:
@@ -21,8 +21,8 @@ After millions of years of evolving on the surface, man decided to venture into 
 + ##### Shark:
 	+ High HP
 	+ Very slow
-	+ Only moves in a zig zag motion towards the bottom
-+ ##### Mantaray:
+	+ Only moves in a zig-zag motion towards the bottom
++ ##### Manta ray:
 	+ Medium/Slowish
 	+ Medium HP
 	+ Forward
@@ -32,7 +32,7 @@ After millions of years of evolving on the surface, man decided to venture into 
 	+ Gives plus a bunch of points
 	+ Moves down quickly
 + ##### Shield:
-	+ Gives the player invincibiility for a couple of seconds
+	+ Gives the player invincibility for a couple of seconds
 	+ Moves down
 	+ Lasts for a bit of time
 + ##### +1 Bomb:
@@ -61,7 +61,7 @@ After millions of years of evolving on the surface, man decided to venture into 
 + The player loses when he loses all three lives
 + Lose a heart if an enemy escapes
 
-## Screenshot and Legend:
+## Screen shot and Legend:
 + ##### Buttons:
 	+ Start makes the game start
 	+ Controls shows the controls to the player
@@ -77,4 +77,4 @@ After millions of years of evolving on the surface, man decided to venture into 
 	+ The number of bombs left are shown in the top middle of the screen
 	+ The player is in the centre of the screen at the start, but be can move wherever
 	+ Enemies appear at the top of the screen
-	+ The background will most liely be a repeating coral reef or waves
+	+ The background will most likely be a repeating coral reef or waves
