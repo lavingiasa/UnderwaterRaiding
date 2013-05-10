@@ -47,7 +47,7 @@
 using namespace std;
 
 /**
- * This class is the backbone for the entire game/project. It holds all the GUI stuff, impliments the things, and makes everything work together
+ * This class is the backbone for the entire game/project. It holds all the GUI stuff, implements the things, and makes everything work together
  * 
  * @author Samir Lavingia
  * 
@@ -67,9 +67,9 @@ public:
 
     
 private:
-    /** the scene where all the gameplay takes place*/
+    /** the scene where all the game play takes place*/
     QGraphicsScene *startingScene;
-    /** the view in which teh scene is placed*/
+    /** the view in which the scene is placed*/
     QGraphicsView *view;
     
     /** the button to start the game*/
@@ -108,7 +108,7 @@ private:
     /** the item that just says what the number is*/
     QLabel *scorePrompt;
     
-    /**holds teh current score */
+    /**holds the current score */
     int scoreNumber;
     /**holds the number of bombs */
     int numBombs;
@@ -191,7 +191,7 @@ private:
 	vector <string> scores;
 
 public slots:
-	/** The slot for the startgame button*/
+	/** The slot for the start game button*/
     bool startGame();
    	/** The slot for the quit game button*/
     void exitGame();
@@ -201,7 +201,7 @@ public slots:
     void pauseGame();
     
 protected:
-	/**to usekey presses */
+	/**to use key presses */
 	void keyPressEvent(QKeyEvent *event);
 
 };

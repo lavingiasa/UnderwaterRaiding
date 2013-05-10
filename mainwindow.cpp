@@ -3,7 +3,7 @@
 using namespace std;
 
 
-/** handles the timer and stuff to make sure the game works as intended. It is the drum breat of the game */
+/** handles the timer and stuff to make sure the game works as intended. It is the drum beat of the game */
 void MainWindow::handleTimer() 
 {
 	numHandles ++;
@@ -28,7 +28,7 @@ void MainWindow::handleTimer()
 
 	}
 	
-	//if it has been 100 cycles since my last hit, give me teh bad gun again
+	//if it has been 100 cycles since my last hit, give me the bad gun again
 	if(gunTimer == 100)
 	{
 		intGunToUse = 0;
@@ -111,7 +111,7 @@ void MainWindow::handleTimer()
 
 	}
 	
-	//make a manta
+	//make a manta ray
 	if(numHandles % (spawnNumber/2) == 1)
 	{
 		Manta * currManta = new Manta(mantaImage,0,-300);
@@ -142,7 +142,7 @@ void MainWindow::handleTimer()
 		startingScene->addItem(currSquid);
 
 	}
-	//move everything. if a certain amount of time has passed, move everything again
+	//move everything. If a certain amount of time has passed, move everything again
 	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
 			myThings[i]->move();
@@ -154,7 +154,7 @@ void MainWindow::handleTimer()
 	//checks the collisions
 	for(unsigned int i = 0; i < myThings.size(); i ++)
 		{
-			//with teh player
+			//with the player
 			if(!(myThings[i]->isBad()) && player->collidesWithItem(myThings[i]))
 			{
 				//if it is a bomb
@@ -744,7 +744,7 @@ void MainWindow::exitGame()
 {
 	QApplication::exit(1);
 }
-/** This is the slot for starting the game. It hids stuff and shows other stuffs and starts the timer and stuff
+/** This is the slot for starting the game. It hides stuff and shows other stuffs and starts the timer and stuff
  * 
  * @return bool that says if starting the games were effective
  * */

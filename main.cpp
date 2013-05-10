@@ -10,9 +10,9 @@
 		4. Practice how to show, or hide, Qt widgets to change what the user can see.
 		5. Practice the handling of GUI-based events in Qt.
 
-	@section requirments Requirments: 
+	@section requirements Requirements: 
 		1. Make a design document that will model the game
-		2. Impliment 5 "things" that move in different ways
+		2. Implement 5 "things" that move in different ways
 		3. Have buttons work correctly and stuff like that
 		4. Pause button, start button, quit button
 		5. Make the game work as it is supposed to
