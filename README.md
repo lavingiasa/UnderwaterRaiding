@@ -9,6 +9,11 @@
   + Game Description: You are a fighting submarine that is under the water, trying to exterminate all the crazy mutated sea creatures that are attacking the people
   + [Game Design Doc](GameDesignDoc.md)
 
+### Licensing
+  + Can be found in the LICENSE.md file
+  + Licensed under Apache
+  + Details can be found here: http://www.apache.org/licenses/LICENSE-2.0
+
 
 ### Compile & Run Instructions
 The grader should use the following procedure to compile and run the code:
