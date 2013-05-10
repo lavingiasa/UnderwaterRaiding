@@ -13,7 +13,7 @@
 #define WINDOW_MAX_Y 280
 
 /**
- *A abstract "thing" class, which the rest of the things will inherit and impliment
+ *A abstract "thing" class, which the rest of the things will inherit and implement
  * 
  * @author Samir Lavingia
  * 
@@ -21,9 +21,9 @@
 class Thing: public QGraphicsPixmapItem 
 {	
 	public:
-		/**Constuctor*/
+		/**Constructor*/
 		Thing(QPixmap *pm, int nx, int ny);
-		/**Pure virtual function for the move. Will be implimented by the subclasses*/
+		/**Pure virtual function for the move. Will be implemented by the subclasses*/
 		void virtual move() = 0;
 		/**Bool to tell if the item is evil or not*/
 		bool isBad();

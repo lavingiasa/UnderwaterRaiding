@@ -6,7 +6,7 @@
 
 ### Game Information
   + Game Name: Underwater Raiding
-  + Game Description: You are a fighting submarine that is under the water, trying to exterminate all the crazy mutaed sea creatures that are attacking the people
+  + Game Description: You are a fighting submarine that is under the water, trying to exterminate all the crazy mutated sea creatures that are attacking the people
   + [Game Design Doc](GameDesignDoc.md)
 
 

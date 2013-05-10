@@ -202,7 +202,7 @@ void Player::move()
 }
 
 /**
- * @return teh current HP of the thing
+ * @return the current HP of the thing
  * */
 int Thing::getHP()
 {
@@ -210,14 +210,14 @@ int Thing::getHP()
 }
 
 /**
- * @return teh x position of the current item
+ * @return the x position of the current item
  * */
 int Player::getX()
 {
 	return x;
 }
 /**
- * @return teh Y position of the current item
+ * @return the Y position of the current item
  * */
 int Player::getY()
 {
@@ -289,7 +289,7 @@ PlusBomb::PlusBomb (QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
 }
 
 /**
- * Constructor to make a pluspints
+ * Constructor to make a pluspoints
  * @post it is  not bad, hp = 10000,  a power up
  * */
 PlusPoints::PlusPoints(QPixmap *pm, int nx, int ny): Thing(pm,nx,ny)
