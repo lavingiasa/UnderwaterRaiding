@@ -1,4 +1,4 @@
-# Game - Programming Assignments Private Repository
+# Game - Programming Assignments
 ### Student Information
   + Name: Samir Lavingia
   + USC Email: samirlav@usc.edu
